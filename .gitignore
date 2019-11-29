@@ -1,0 +1,8 @@
+# IntelliJ
+out/
+
+# derby
+derby.log
+inOrder/
+
+excluded/

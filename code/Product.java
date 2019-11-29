@@ -20,8 +20,8 @@ public class Product {
                         + "  name VARCHAR(255) NOT NULL,"
                         + "  description VARCHAR(255) NOT NULL,"
                         + "  SKU VARCHAR(16),"
-                        + "  PRIMARY KEY(SKU), "
-                        + "  CHECK(isSKU(SKU))"
+                        + "  PRIMARY KEY(SKU) "
+                  //      + "  CHECK(isSKU(SKU))"
                         + ")";
         try {
             stmt.executeUpdate(createTable_Product);
@@ -123,5 +123,20 @@ public class Product {
             System.err.println(e);
         }
         return num;
+    }
+
+    /**
+     * Drops the Product table.
+     *
+     * @param stmt The Statement object.
+     * @return true if dropped successfully, otherwise false.
+     */
+    public static boolean dropTable(Statement stmt) {
+        try {
+            stmt.executeUpdate("DROP TABLE Product");
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
     }
 }
