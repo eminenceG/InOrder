@@ -17,7 +17,7 @@ public class InOrder {
     InOrder () throws SQLException {
         // set up the connection to the database
         String protocol = "jdbc:derby:";
-        String dbName = "orderManager";
+        String dbName = "InOrder";
         String connectionSetUp = protocol + dbName + ";create=true";
 
         Properties props = new Properties();
@@ -39,9 +39,17 @@ public class InOrder {
         Statement stmt = conn.createStatement();
 
         boolean dropped;
+
         // drops old tables
         dropped = Product.dropTable(stmt);
         System.out.println(dropped);
+
+        // drops old stored functions and creates new ones.
+        String[] storedFunctions = InOrderFunctions.functions;
+        for (String func : storedFunctions) {
+            InOrderFunctions.dropFunction(stmt, func);
+            InOrderFunctions.createFunction(stmt, func);
+        }
 
         // creates new tables
         boolean created;

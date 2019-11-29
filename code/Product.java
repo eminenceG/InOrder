@@ -20,8 +20,8 @@ public class Product {
                         + "  name VARCHAR(255) NOT NULL,"
                         + "  description VARCHAR(255) NOT NULL,"
                         + "  SKU VARCHAR(16),"
-                        + "  PRIMARY KEY(SKU) "
-                  //      + "  CHECK(isSKU(SKU))"
+                        + "  PRIMARY KEY(SKU),"
+                        + "  CHECK(ISSKU(SKU))"
                         + ")";
         try {
             stmt.executeUpdate(createTable_Product);

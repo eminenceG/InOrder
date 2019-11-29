@@ -3,6 +3,6 @@ out/
 
 # derby
 derby.log
-inOrder/
+InOrder/
 
 excluded/
