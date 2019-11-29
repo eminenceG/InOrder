@@ -135,6 +135,7 @@ public class Product {
         try {
             stmt.executeUpdate("DROP TABLE Product");
         } catch (SQLException e) {
+            System.err.println(e);
             return false;
         }
         return true;

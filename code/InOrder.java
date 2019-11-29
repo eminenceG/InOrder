@@ -41,6 +41,8 @@ public class InOrder {
         boolean dropped;
 
         // drops old tables
+        dropped = InventoryRecord.dropTable(stmt);
+        System.out.println(dropped);
         dropped = Product.dropTable(stmt);
         System.out.println(dropped);
 
@@ -54,6 +56,7 @@ public class InOrder {
         // creates new tables
         boolean created;
         created = Product.createTable(stmt);
+        created = InventoryRecord.createTable(stmt);
         System.out.println(created);
     }
 
