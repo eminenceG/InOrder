@@ -1,7 +1,7 @@
 import java.sql.*;
 
 /**
- * The Product class that provides functions to operate the Product Table. Product represents a product that can be
+ * The Product.Product class that provides functions to operate the Product.Product Table. Product.Product represents a product that can be
  * purchased. It includes the name of the product, a product description, a vendor product SKU (Stock Keeping Unit)
  * that identifies the product. For this exercise the SKU is a 12-character value of the form AA-NNNNNN-CC where A is
  * an upper-case letter, N is a digit from 0-9, and C is either a digit or an uppper case letter. For example,
@@ -10,7 +10,7 @@ import java.sql.*;
 public class Product {
 
     /**
-     * Creates the Product table.
+     * Creates the Product.Product table.
      * @param stmt The Statement objection.
      * @return true if the table is created successfully, otherwise false.
      */
@@ -25,7 +25,7 @@ public class Product {
                         + ")";
         try {
             stmt.executeUpdate(createTable_Product);
-            System.out.println("Created table Product");
+            System.out.println("Created table Product.Product");
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             return false;
@@ -34,7 +34,7 @@ public class Product {
     }
 
     /**
-     * Inserts one row into the Product table.
+     * Inserts one row into the Product.Product table.
      *
      * @param conn The Connection objection used in the driver.
      * @param name  The name of the product.
@@ -59,7 +59,7 @@ public class Product {
     }
 
     /**
-     * Update one row by its ID in the Product table.
+     * Update one row by its ID in the Product.Product table.
      *
      * @param conn The Connection objection used in the driver.
      * @param sku The SKU of the product.
@@ -104,7 +104,7 @@ public class Product {
     }
 
     /**
-     * Returns the number of rows in the the Product table. Returns -1 if the query fails.
+     * Returns the number of rows in the the Product.Product table. Returns -1 if the query fails.
      *
      * @param conn The Connection objection used in the driver.
      * @return the number of rows.
@@ -126,12 +126,12 @@ public class Product {
     }
 
     /**
-     * Drops the Product table.
+     * Drops the Product.Product table.
      *
      * @param stmt The Statement object.
      * @return true if dropped successfully, otherwise false.
      */
-    public static boolean dropTable(Statement stmt) {
+    protected static boolean dropTable(Statement stmt) {
         try {
             stmt.executeUpdate("DROP TABLE Product");
         } catch (SQLException e) {
