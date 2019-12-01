@@ -31,13 +31,16 @@ class ProductServiceTest {
         products.add(new Product("c", "d", "AB-000002-0N"));
     }
 
+    /** Tests the insertion of a Product. */
     @Test
     public void testInsert() {
+
         ProductService.insert(conn, products.get(0));
         Product productFromDb = ProductService.getProductBySku(conn, products.get(0).getSku());
         assertEquals(products.get(0), productFromDb);
     }
 
+    /** Tests getting all Products. */
     @Test
     public void testGetAllProducts() {
         for (Product p : products) {
@@ -50,6 +53,7 @@ class ProductServiceTest {
         }
     }
 
+    /** Tests when the SKU is not valid. */
     @Test
     public void testInvalidSku() {
         Product p = new Product("a", "b", "c");

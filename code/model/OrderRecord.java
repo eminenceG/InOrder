@@ -9,7 +9,7 @@ import java.util.PrimitiveIterator;
 public class OrderRecord {
     private final int orderId;
     private final int numUnits;
-    private final int unitPrice;
+    private final double unitPrice;
     private final String sku;
     private static String NOT_VALID_ARGUMENT = "The arguments are not valid.";
 
@@ -21,7 +21,7 @@ public class OrderRecord {
      * @param unitPrice the unit price.
      * @throws IllegalArgumentException if any argument is not valid.
      */
-    public OrderRecord(int orderId, int numUnits, int unitPrice, String sku) throws IllegalArgumentException {
+    public OrderRecord(int orderId, int numUnits, double unitPrice, String sku) throws IllegalArgumentException {
         if (orderId <= 0 || numUnits <= 0 || unitPrice < 0) {
             throw new IllegalArgumentException(NOT_VALID_ARGUMENT);
         }
@@ -35,7 +35,7 @@ public class OrderRecord {
         return numUnits;
     }
 
-    public int getUnitPrice() {
+    public double getUnitPrice() {
         return unitPrice;
     }
 
@@ -45,5 +45,15 @@ public class OrderRecord {
 
     public String getSku() {
         return sku;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+        OrderRecord other = (OrderRecord) obj;
+        return other.getSku().equals(sku) && other.getOrderId() == orderId && other.getNumUnits() == numUnits&&
+                other.getUnitPrice() == unitPrice;
     }
 }

@@ -45,7 +45,7 @@ public class OrderService {
                 System.err.println(e.getMessage());
             }
             insertRow_Order.close();
-            if (orderRecordList != null) {
+            if (orderRecordList != null && !orderRecordList.isEmpty()) {
                 for (OrderRecord orderRecord : orderRecordList) {
                     boolean inserted = OrderRecordService.insert(conn, orderRecord);
                     if (!inserted) {
