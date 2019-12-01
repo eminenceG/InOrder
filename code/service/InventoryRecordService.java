@@ -1,14 +1,18 @@
+package service;
+
+import model.InventoryRecord;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * The InventoryRecord class that provides functions to operate the InventoryRecord Table. InventoryRecord is the number
+ * The service.InventoryRecord class that provides functions to operate the service.InventoryRecord Table. service.InventoryRecord is the number
  * of units available for purchase and the price per unit for the current inventory (positive, with 2 digits after the
  * decimal place).
  */
-public class InventoryRecord {
+public class InventoryRecordService {
 
     public static boolean createTable(Statement stmt) {
         String createTableInventoryRecord =
@@ -29,39 +33,22 @@ public class InventoryRecord {
     }
 
     /**
-     * Drops the InventoryRecord table.
+     * inserts one row into the InventoryRecord table.
      *
-     * @param stmt The Statement object.
-     * @return true if dropped successfully, otherwise false.
-     */
-    public static boolean dropTable(Statement stmt) {
-        try {
-            stmt.executeUpdate("DROP TABLE InventoryRecord");
-        } catch (SQLException e) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Inserts one row into the RecordInventory table.
-     *
-     * @param conn The connection object used in the driver.
-     * @param sku The SKU of the product.
-     * @param quantityInStock The quantity of the product.
-     * @param unitBuyPrice The unit price of the product.
+     * @param conn the connection object used in the driver.
+     * @param inventoryRecord the InventoryRecord object.
      * @return true if inserted successfully, otherwise false.
      */
-    public static boolean insert(Connection conn, String sku, int quantityInStock, double unitBuyPrice) {
+    public static boolean insert(Connection conn, InventoryRecord inventoryRecord)  {
         try {
-            PreparedStatement insertRow_InventoryRecord =
+            PreparedStatement insertRowInventoryRecord =
                     conn.prepareStatement("INSERT INTO InventoryRecord VALUES(?,?,?)");
             // insert costumers into table
-            insertRow_InventoryRecord.setInt(1, quantityInStock);
-            insertRow_InventoryRecord.setDouble(2, unitBuyPrice);
-            insertRow_InventoryRecord.setString(3, sku);
-            insertRow_InventoryRecord.execute();
-            insertRow_InventoryRecord.close();
+            insertRowInventoryRecord.setInt(1, inventoryRecord.getQuantityInStock());
+            insertRowInventoryRecord.setDouble(2, inventoryRecord.getUnitPrice());
+            insertRowInventoryRecord.setString(3, inventoryRecord.getSku());
+            insertRowInventoryRecord.execute();
+            insertRowInventoryRecord.close();
             return true;
         } catch (SQLException e) {
             System.err.println(e);

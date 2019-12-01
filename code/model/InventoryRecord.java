@@ -1,7 +1,7 @@
 package model;
 
 /**
- * The data model for InventoryRecord table. InventoryRecord is the number of units available for purchase and the price
+ * The data model for service.InventoryRecord table. service.InventoryRecord is the number of units available for purchase and the price
  * per unit for the current inventory (positive, with 2 digits after the decimal place).
  */
 public class InventoryRecord {
@@ -12,7 +12,7 @@ public class InventoryRecord {
     private static String NOT_VALID_ARGUMENT = "The arguments are not valid.";
 
     /**
-     * Constructs an InventoryRecord instance.
+     * Constructs an service.InventoryRecord instance.
      *
      * @param quantityInStock the quantity in stock.
      * @param unitPrice the unit price.

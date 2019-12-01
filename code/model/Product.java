@@ -34,4 +34,18 @@ public class Product {
     public String getSku() {
         return sku;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+        Product other = (Product) obj;
+        return other.getName().equals(name) && other.getDescription().equals(description) && other.getSku().equals(sku);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("name: %s, description: %s, sku: %s", name, description, sku);
+    }
 }

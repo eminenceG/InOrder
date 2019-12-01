@@ -10,6 +10,7 @@ public class OrderRecord {
     private final int orderId;
     private final int numUnits;
     private final int unitPrice;
+    private final String sku;
     private static String NOT_VALID_ARGUMENT = "The arguments are not valid.";
 
 
@@ -20,13 +21,14 @@ public class OrderRecord {
      * @param unitPrice the unit price.
      * @throws IllegalArgumentException if any argument is not valid.
      */
-    public OrderRecord(int orderId, int numUnits, int unitPrice) throws IllegalArgumentException {
+    public OrderRecord(int orderId, int numUnits, int unitPrice, String sku) throws IllegalArgumentException {
         if (orderId <= 0 || numUnits <= 0 || unitPrice < 0) {
             throw new IllegalArgumentException(NOT_VALID_ARGUMENT);
         }
         this.orderId = orderId;
         this.numUnits = numUnits;
         this.unitPrice = unitPrice;
+        this.sku = sku;
     }
 
     public int getNumUnits() {
@@ -39,5 +41,9 @@ public class OrderRecord {
 
     public int getOrderId() {
         return orderId;
+    }
+
+    public String getSku() {
+        return sku;
     }
 }

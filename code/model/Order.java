@@ -1,6 +1,7 @@
 package model;
 
-import java.time.LocalDate;
+
+import java.sql.Date;
 
 /**
  * Data model for the Order table. Order is an order for a set of products. It includes a customer ID, an order ID
@@ -10,8 +11,8 @@ import java.time.LocalDate;
 public class Order {
     private final int customerId;
     private final int orderId;
-    private final LocalDate orderDate;
-    private LocalDate shipDate;
+    private final Date orderDate;
+    private Date shipDate;
     private static String NOT_VALID_ARGUMENT = "The arguments are not valid.";
 
     /**
@@ -22,7 +23,7 @@ public class Order {
      * @param shipDate the shipment date.
      * @throws IllegalArgumentException if customerId or orderId is not valid.
      */
-    public Order(int customerId, int orderId, LocalDate orderDate, LocalDate shipDate) throws IllegalArgumentException {
+    public Order(int customerId, int orderId, Date orderDate, Date shipDate) throws IllegalArgumentException {
         this(customerId, orderId, orderDate);
         this.shipDate = shipDate;
     }
@@ -33,7 +34,7 @@ public class Order {
      * @param orderDate the order date.
      * @throws IllegalArgumentException if customerId or orderId is not valid.
      */
-    public Order(int customerId, int orderId, LocalDate orderDate) throws IllegalArgumentException {
+    public Order(int customerId, int orderId, Date orderDate) throws IllegalArgumentException {
         if (customerId <= 0 || orderId <= 0) {
             throw new IllegalArgumentException(NOT_VALID_ARGUMENT);
         }
@@ -46,11 +47,15 @@ public class Order {
         return customerId;
     }
 
-    public LocalDate getOrderDate() {
+    public Date getOrderDate() {
         return orderDate;
     }
 
-    public LocalDate getShipDate() {
+    public Date getShipDate() {
         return shipDate;
+    }
+
+    public int getOrderId() {
+        return orderId;
     }
 }

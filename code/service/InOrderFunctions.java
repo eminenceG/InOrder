@@ -1,3 +1,5 @@
+package service;
+
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -23,7 +25,7 @@ public class InOrderFunctions {
                         + " DETERMINISTIC"
                         + " NO SQL"
                         + " EXTERNAL NAME"
-                        + " 'InOrderFunctions.isSku'";
+                        + " 'service.InOrderFunctions.isSku'";
         try {
             stmt.executeUpdate(functionIsSku);
             System.out.println("Created function isSKU");
@@ -33,8 +35,6 @@ public class InOrderFunctions {
         }
         return true;
     }
-
-    // Stored Function:
 
     public static boolean createFunction(Statement stmt, String funcName) {
         switch (funcName) {

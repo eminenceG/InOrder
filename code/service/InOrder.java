@@ -1,3 +1,10 @@
+package service;
+
+import model.Customer;
+import model.Order;
+import model.OrderRecord;
+import model.Product;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -14,7 +21,7 @@ public class InOrder {
      * Constructs an InOrder instance.
      * @throws SQLException When SQL problems occur.
      */
-    InOrder () throws SQLException {
+    InOrder() throws SQLException {
         // set up the connection to the database
         String protocol = "jdbc:derby:";
         String dbName = "InOrder";
@@ -35,16 +42,24 @@ public class InOrder {
      * Initializes the database.
      * @throws SQLException When SQL problems occur.
      */
-    public void init() throws SQLException {
+    public Connection init() throws SQLException {
         Statement stmt = conn.createStatement();
+        String[] tableName = {
+                "InventoryRecord", "OrderRecord", "OrderTable", "Product", "Customer"
+        };
 
-        boolean dropped;
+        // drop old triggers
+        InOrderTriggers.dropTriggers(stmt);
 
         // drops old tables
-        dropped = InventoryRecord.dropTable(stmt);
-        System.out.println(dropped);
-        dropped = Product.dropTable(stmt);
-        System.out.println(dropped);
+        for (String tbl : tableName) {
+            try {
+                stmt.executeUpdate("drop table " + tbl);
+                System.out.println("Dropped table " + tbl);
+            } catch (SQLException ex) {
+                System.err.println("Did not drop table " + tbl + " " + ex.getMessage());
+            }
+        }
 
         // drops old stored functions and creates new ones.
         String[] storedFunctions = InOrderFunctions.functions;
@@ -54,18 +69,32 @@ public class InOrder {
         }
 
         // creates new tables
-        boolean created;
-        created = Product.createTable(stmt);
-        created = InventoryRecord.createTable(stmt);
-        System.out.println(created);
+        ProductService.createTable(stmt);
+        InventoryRecordService.createTable(stmt);
+        CustomerService.createTable(stmt);
+        OrderService.CreateTable(stmt);
+        OrderRecordService.createTable(stmt);
+
+        // creates triggers
+        InOrderTriggers.createTrigger(stmt);
+
+
+
+        return this.conn;
     }
 
     public static void main(String[] args) {
+        Connection conn = null;
         try {
             InOrder driver = new InOrder();
-            driver.init();
+            conn = driver.init();
         } catch (SQLException e) {
             System.out.println("No Database Connection");
         }
+
+        Product p0 = new Product("apple", "apple", "AB-123456-0N");
+        ProductService.insert(conn, p0);
+        Product p = ProductService.getProductBySku(conn, "AB-123456-0N");
+        System.out.println(p.getDescription());
     }
 }
