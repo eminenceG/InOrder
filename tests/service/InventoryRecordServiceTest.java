@@ -40,23 +40,6 @@ public class InventoryRecordServiceTest {
         Product product = new Product("a", "b", "AB-000001-0N");
         ProductService.insert(conn, product);
         InventoryRecordService.insert(conn, inventoryRecords.get(0));
-        assertEquals(inventoryRecords.get(0), getInventoryRecordByKsu(conn, inventoryRecords.get(0).getSku()));
-    }
-
-    /** Helper function to get InventoryRecord via ProductSKU. */
-    private static InventoryRecord getInventoryRecordByKsu(Connection conn, String sku) {
-        try {
-            PreparedStatement sql = conn.prepareStatement("select * from InventoryRecord where ProductSKU = ?");
-            sql.setString(1, sku);
-            ResultSet rs = sql.executeQuery();
-            rs.next();
-            InventoryRecord inventoryRecord = new InventoryRecord(rs.getInt(1), rs.getDouble(2),
-                    rs.getString(3));
-            rs.close();
-            return inventoryRecord;
-        } catch (SQLException e) {
-            System.err.println(e);
-            return null;
-        }
+        assertEquals(inventoryRecords.get(0), InventoryRecordService.getById(conn, inventoryRecords.get(0).getSku()));
     }
 }

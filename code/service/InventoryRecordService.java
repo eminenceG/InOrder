@@ -1,11 +1,11 @@
 package service;
 
 import model.InventoryRecord;
+import model.Product;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The service.InventoryRecord class that provides functions to operate the service.InventoryRecord Table. service.InventoryRecord is the number
@@ -54,5 +54,48 @@ public class InventoryRecordService {
             System.err.println(e);
             return false;
         }
+    }
+
+    /**
+     * Gets an inventory record by the product's SKU.
+     * @param conn the Connection object.
+     * @param sku the product SKU.
+     * @return the InventoryRecord instance, null if not found.
+     */
+    public static InventoryRecord getById(Connection conn, String sku) {
+        try {
+            PreparedStatement sql = conn.prepareStatement("select * from InventoryRecord where ProductSKU = ?");
+            sql.setString(1, sku);
+            ResultSet rs = sql.executeQuery();
+            rs.next();
+            InventoryRecord inventoryRecord = new InventoryRecord(rs.getInt(1), rs.getDouble(2),
+                    rs.getString(3));
+            rs.close();
+            return inventoryRecord;
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        }
+    }
+
+    /**
+     * Gets all inventory records ordered by the peoduct SKU.
+     * @param conn the Connection object.
+     * @return list of all inventory records
+     */
+    public static List<InventoryRecord> getAll(Connection conn) {
+        List<InventoryRecord> inventoryRecords = new ArrayList<>();
+        try (
+                Statement stmt = conn.createStatement();
+        ) {
+            ResultSet rs = stmt.executeQuery("SELECT * FROM InventoryRecord ORDER BY ProductSKU");
+            while (rs.next()) {
+                inventoryRecords.add(new InventoryRecord(rs.getInt(1), rs.getDouble(2), rs.getString(3)));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return inventoryRecords;
     }
 }
