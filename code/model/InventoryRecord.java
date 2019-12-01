@@ -15,8 +15,8 @@ public class InventoryRecord {
      * Constructs an service.InventoryRecord instance.
      *
      * @param quantityInStock the quantity in stock.
-     * @param unitPrice the unit price.
-     * @param sku the SKU of the product.
+     * @param unitPrice       the unit price.
+     * @param sku             the SKU of the product.
      * @throws IllegalArgumentException if any argument is not valid.
      */
     public InventoryRecord(int quantityInStock, double unitPrice, String sku) throws IllegalArgumentException {
@@ -52,7 +52,14 @@ public class InventoryRecord {
         this.sku = sku;
     }
 
-
+    @Override
+    public boolean equals(Object obj) {
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+        InventoryRecord other = (InventoryRecord) obj;
+        return other.getSku().equals(sku) && other.getQuantityInStock() == quantityInStock && other.getUnitPrice() == unitPrice;
+    }
 
 }
 

@@ -16,12 +16,13 @@ public class Customer {
 
     /**
      * Initializes a Customer instance.
+     *
      * @param customerId the customer ID.
-     * @param name the customer's name.
-     * @param address the customer's address.
-     * @param city the customer's city.
-     * @param state the customer's state.
-     * @param country the customer's country.
+     * @param name       the customer's name.
+     * @param address    the customer's address.
+     * @param city       the customer's city.
+     * @param state      the customer's state.
+     * @param country    the customer's country.
      * @param postalCode the customer's postalCode.
      * @throws IllegalArgumentException if the customer ID is not valid.
      */
@@ -66,5 +67,21 @@ public class Customer {
 
     public String getPostalCode() {
         return postalCode;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+        Customer other = (Customer) obj;
+        return other.getCustomerId() == this.getCustomerId() &&
+                other.getAddress().equals(this.getAddress()) &&
+                other.getCity().equals(this.getCity()) &&
+                other.getCountry().equals(this.getCountry()) &&
+                other.getName().equals(this.getName()) &&
+                other.getPostalCode().equals(this.getPostalCode()) &&
+                other.getState().equals(this.getState());
     }
 }
