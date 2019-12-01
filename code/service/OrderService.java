@@ -66,4 +66,29 @@ public class OrderService {
         return true;
     }
 
+    /**
+     * Ships the order by updating the ShipmentDate in the OrderTable table.
+     * @param conn the Connection object.
+     * @param orderId the orderID.
+     * @param shipDate the ship date.
+     * @return true if updated successfully, otherwise false.
+     */
+    public static boolean shipOrder(Connection conn, int orderId, Date shipDate) {
+        try {
+            PreparedStatement updateRow =
+                    conn.prepareStatement("UPDATE OrderTable SET ShipmentDate = ? where OrderId = ?");
+            try {
+                updateRow.setDate(1, shipDate);
+                updateRow.setInt(2, orderId);
+                updateRow.execute();
+            } catch (SQLException ex) {
+                System.out.println("Did not updateById the row. " + ex.getMessage());
+            }
+            updateRow.close();
+            return true;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
 }
