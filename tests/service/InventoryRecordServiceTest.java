@@ -42,4 +42,30 @@ public class InventoryRecordServiceTest {
         InventoryRecordService.insert(conn, inventoryRecords.get(0));
         assertEquals(inventoryRecords.get(0), InventoryRecordService.getById(conn, inventoryRecords.get(0).getSku()));
     }
+
+    @Test
+    public void testGetAll() {
+        ProductService.insert(conn, new Product("a", "b", "AB-000001-0N"));
+        ProductService.insert(conn, new Product("c", "b", "AB-000002-1N"));
+
+        for (InventoryRecord inventoryRecord : inventoryRecords) {
+            InventoryRecordService.insert(conn, inventoryRecord);
+        }
+        List<InventoryRecord> inventoryRecordsFromDB = InventoryRecordService.getAll(conn);
+        assertEquals(inventoryRecordsFromDB.size(), inventoryRecords.size());
+        for (int i = 0; i < inventoryRecordsFromDB.size(); i++) {
+            assertEquals(inventoryRecords.get(i), inventoryRecordsFromDB.get(i));
+        }
+    }
+
+    @Test
+    public void testAddInvalidInventoryRecord() {
+        // The key is not in the Product table
+        InventoryRecordService.insert(conn, inventoryRecords.get(0));
+        assertEquals(null, InventoryRecordService.getById(conn, inventoryRecords.get(0).getSku()));
+
+        // TODO: The quantity is negative
+
+        // TODO: The unit price is negative
+    }
 }
