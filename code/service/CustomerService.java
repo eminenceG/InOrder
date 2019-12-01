@@ -117,7 +117,6 @@ public class CustomerService {
      * @return the customer object, null if not found.
      */
     public static Customer getById(Connection conn, int id) {
-
         try {
             PreparedStatement sql = conn.prepareStatement("select * from Customer where CustomerId = ?");
             sql.setInt(1, id);

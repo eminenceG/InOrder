@@ -1,12 +1,11 @@
 package service;
 
-import model.Customer;
-import model.Order;
-import model.OrderRecord;
-import model.Product;
+import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.shadow.com.univocity.parsers.common.record.Record;
 
+import java.security.PublicKey;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +29,7 @@ public class OrderServiceTest {
 
         orders = new ArrayList<>();
         orders.add(new Order(1, 1, new Date(1L), null));
-        orders.add(new Order(2, 2, new Date(2L), null));
+        orders.add(new Order(1, 2, new Date(2L), null));
     }
 
     /** Tests the insertion of an Order. */
@@ -42,12 +41,12 @@ public class OrderServiceTest {
         CustomerService.insert(conn, customer);
 
         OrderService.insert(conn, orders.get(0), Arrays.asList(new OrderRecord(1, 1, 2.22, "AB-000001-0N")));
-        assertEquals(orders.get(0), getOrderById(conn, orders.get(0).getOrderId()));
+        assertEquals(orders.get(0), OrderService.getById(conn, orders.get(0).getOrderId()));
     }
 
     /** Tests the insertion of an Order without any OrderRecord. */
     @Test
-    public void insertTest_noOrderRecord(){
+    public void insertTest_noOrderRecord() {
         Product product = new Product("a", "b", "AB-000002-0N");
         Customer customer = new Customer(2, "name1", "address1", "city1", "state1", "country1", "postalCode1");
         ProductService.insert(conn, product);
@@ -59,7 +58,7 @@ public class OrderServiceTest {
 
     /** Tests the order ship method.  */
     @Test
-    public void testShipOrder(){
+    public void testShipOrder() {
         Product product = new Product("a", "b", "AB-000001-0N");
         Customer customer = new Customer(1, "name1", "address1", "city1", "state1", "country1", "postalCode1");
         ProductService.insert(conn, product);
@@ -67,23 +66,26 @@ public class OrderServiceTest {
         OrderService.insert(conn, orders.get(0), Arrays.asList(new OrderRecord(1, 1, 2.22, "AB-000001-0N")));
 
         OrderService.shipOrder(conn, orders.get(0).getOrderId(), new Date(1000000000L));
-        assertEquals(getOrderById(conn, orders.get(0).getOrderId()).getShipDate().toString(), "1970-01-12");
+        assertEquals(OrderService.getById(conn, orders.get(0).getOrderId()).getShipDate().toString(), "1970-01-12");
     }
 
-    /** Helper function to get Order by its id. */
-    private static Order getOrderById(Connection conn, int orderId) {
-        try {
-            PreparedStatement sql = conn.prepareStatement("select * from OrderTable where OrderId = ?");
-            sql.setInt(1, orderId);
-            ResultSet rs = sql.executeQuery();
-            rs.next();
-            Order order = new Order(rs.getInt(1), rs.getInt(2),
-                    rs.getDate(3), rs.getDate(4));
-            rs.close();
-            return order;
-        } catch (SQLException e) {
-            System.err.println(e);
-            return null;
+    @Test
+    public void testGetAllRecords() {
+        Product product = new Product("a", "b", "AB-000001-0N");
+        Customer customer = new Customer(1, "name1", "address1", "city1", "state1",
+                "country1", "postalCode1");
+        ProductService.insert(conn, product);
+        CustomerService.insert(conn, customer);
+        for (Order order: orders) {
+            OrderService.insert(conn, order, Arrays.asList(
+                    new OrderRecord(order.getOrderId(), 1, 2.22, "AB-000001-0N")));
         }
+
+        List<Order> ordersFromDb = OrderService.getAll(conn);
+        assertEquals(ordersFromDb.size(), orders.size());
+        for (int i = 0; i < ordersFromDb.size(); i++) {
+            assertEquals(ordersFromDb.get(i), orders.get(i));
+        }
+
     }
 }
