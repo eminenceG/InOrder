@@ -45,7 +45,7 @@ public class OrderService {
                 System.err.println(e.getMessage());
             }
             insertRow_Order.close();
-            if (orderRecordList != null) {
+            if (orderRecordList != null && !orderRecordList.isEmpty()) {
                 for (OrderRecord orderRecord : orderRecordList) {
                     boolean inserted = OrderRecordService.insert(conn, orderRecord);
                     if (!inserted) {
@@ -56,6 +56,7 @@ public class OrderService {
             } else {
                 System.out.println("Failed to place the order. Order without records is not permitted.");
                 conn.rollback(sp);
+                conn.setAutoCommit(true);
                 return false;
             }
             conn.setAutoCommit(true);

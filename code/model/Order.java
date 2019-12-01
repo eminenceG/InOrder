@@ -17,10 +17,11 @@ public class Order {
 
     /**
      * Initialize a shipped order.
+     *
      * @param customerId the customer ID.
-     * @param orderId the order ID.
-     * @param orderDate the order date.
-     * @param shipDate the shipment date.
+     * @param orderId    the order ID.
+     * @param orderDate  the order date.
+     * @param shipDate   the shipment date.
      * @throws IllegalArgumentException if customerId or orderId is not valid.
      */
     public Order(int customerId, int orderId, Date orderDate, Date shipDate) throws IllegalArgumentException {
@@ -30,8 +31,9 @@ public class Order {
 
     /**
      * Initializes a not yet shipped order.
+     *
      * @param customerId the customer ID.
-     * @param orderDate the order date.
+     * @param orderDate  the order date.
      * @throws IllegalArgumentException if customerId or orderId is not valid.
      */
     public Order(int customerId, int orderId, Date orderDate) throws IllegalArgumentException {
@@ -57,5 +59,17 @@ public class Order {
 
     public int getOrderId() {
         return orderId;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+        Order other = (Order) obj;
+        return other.getCustomerId() == customerId &&
+                other.getOrderId() == orderId &&
+                other.orderDate.toString().equals(orderDate.toString()) &&
+                ((other.shipDate == null && shipDate == null) || (other.shipDate.toString().equals(shipDate.toString())));
     }
 }
