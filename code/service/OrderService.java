@@ -1,10 +1,12 @@
 package service;
 
+import model.Customer;
 import model.Order;
 import model.OrderRecord;
 import model.Product;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderService {
@@ -91,5 +93,49 @@ public class OrderService {
             System.err.println(e.getMessage());
             return false;
         }
+    }
+
+    /**
+     * Gets an order by its ID.
+     *
+     * @param conn the Connection object.
+     * @param orderId the order Id.
+     * @return the order, null if not found.
+     */
+    public static Order getById(Connection conn, int orderId) {
+        try {
+            PreparedStatement sql = conn.prepareStatement("select * from OrderTable where OrderId = ?");
+            sql.setInt(1, orderId);
+            ResultSet rs = sql.executeQuery();
+            rs.next();
+            Order order = new Order(rs.getInt(1), rs.getInt(2),
+                    rs.getDate(3), rs.getDate(4));
+            rs.close();
+            return order;
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        }
+    }
+
+    /**
+     * Gets all records.
+     * @param conn the Connection object.
+     * @return all records as a List.
+     */
+    public static List<Order> getAll(Connection conn) {
+        List<Order> orders = new ArrayList<>();
+        try (
+                Statement stmt = conn.createStatement();
+        ) {
+            ResultSet rs = stmt.executeQuery("SELECT * FROM OrderTable ORDER BY OrderId");
+            while (rs.next()) {
+                orders.add(new Order(rs.getInt(1), rs.getInt(2), rs.getDate(3), rs.getDate(4)));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orders;
     }
 }
