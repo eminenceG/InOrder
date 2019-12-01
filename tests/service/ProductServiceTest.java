@@ -49,4 +49,11 @@ class ProductServiceTest {
             assertEquals(products.get(i), productsFromDb.get(i));
         }
     }
+
+    @Test
+    public void testInvalidSku() {
+        Product p = new Product("a", "b", "c");
+        assertEquals(ProductService.insert(conn, p), false);
+        assertEquals(ProductService.getAllProducts(conn).size(), 0);
+    }
 }
