@@ -57,6 +57,19 @@ public class OrderServiceTest {
         assertEquals(result, false);
     }
 
+    /** Tests the order ship method.  */
+    @Test
+    public void testShipOrder(){
+        Product product = new Product("a", "b", "AB-000001-0N");
+        Customer customer = new Customer(1, "name1", "address1", "city1", "state1", "country1", "postalCode1");
+        ProductService.insert(conn, product);
+        CustomerService.insert(conn, customer);
+        OrderService.insert(conn, orders.get(0), Arrays.asList(new OrderRecord(1, 1, 2.22, "AB-000001-0N")));
+
+        OrderService.shipOrder(conn, orders.get(0).getOrderId(), new Date(1000000000L));
+        assertEquals(getOrderById(conn, orders.get(0).getOrderId()).getShipDate().toString(), "1970-01-12");
+    }
+
     /** Helper function to get Order by its id. */
     private static Order getOrderById(Connection conn, int orderId) {
         try {

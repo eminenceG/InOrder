@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class InventoryRecordServiceTest {
     private Connection conn = null;
@@ -34,7 +35,9 @@ public class InventoryRecordServiceTest {
 
     }
 
-    /** Tests the insertion of an InventoryRecord. */
+    /**
+     * Tests the insertion of an InventoryRecord.
+     */
     @Test
     public void testInsert() {
         Product product = new Product("a", "b", "AB-000001-0N");
@@ -64,8 +67,11 @@ public class InventoryRecordServiceTest {
         InventoryRecordService.insert(conn, inventoryRecords.get(0));
         assertEquals(null, InventoryRecordService.getById(conn, inventoryRecords.get(0).getSku()));
 
-        // TODO: The quantity is negative
+        // The quantity is negative
+        assertThrows(IllegalArgumentException.class, () -> new InventoryRecord(-1, 1.11, "AB-000003-0N"));
 
-        // TODO: The unit price is negative
+        // The unit price is negative
+        assertThrows(IllegalArgumentException.class, () -> new InventoryRecord(1, -1.11, "AB-000003-0N"));
+
     }
 }
