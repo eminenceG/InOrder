@@ -43,7 +43,7 @@ public class OrderRecordServiceTest {
         OrderService.insert(conn, order, Arrays.asList(new OrderRecord(1, 1, 2.22, "AB-123456-0N")));
 
         OrderRecordService.insert(conn, orderRecords.get(0));
-        assertEquals(orderRecords.get(0), getOrderRecord(conn,
+        assertEquals(orderRecords.get(0), OrderRecordService.getById(conn,
                 orderRecords.get(0).getOrderId(), orderRecords.get(0).getSku()));
     }
 
@@ -63,24 +63,5 @@ public class OrderRecordServiceTest {
 
         boolean result = OrderRecordService.insert(conn, orderRecords.get(0));
         assertEquals(result, false);
-    }
-
-
-    /** Helper function to get an OrderRecord. */
-    private static OrderRecord getOrderRecord(Connection conn, int orderId, String ksu) {
-        try {
-            PreparedStatement sql = conn.prepareStatement("select * from OrderRecord where OrderId = ? and ProductSKU = ?");
-            sql.setInt(1, orderId);
-            sql.setString(2, ksu);
-            ResultSet rs = sql.executeQuery();
-            rs.next();
-            OrderRecord orderRecord = new OrderRecord(rs.getInt(2), rs.getInt(1),
-                    rs.getDouble(3), rs.getString(4));
-            rs.close();
-            return orderRecord;
-        } catch (SQLException e) {
-            System.err.println(e);
-            return null;
-        }
     }
 }
