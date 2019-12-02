@@ -98,4 +98,27 @@ public class InventoryRecordService {
         }
         return inventoryRecords;
     }
+
+    /**
+     * Updates an inventory record.
+     * @param conn the Connection object.
+     * @param inventoryRecord the inventory record.
+     * @return true if updated successfully, otherwise false.
+     */
+    public static boolean update(Connection conn, InventoryRecord inventoryRecord) {
+        try {
+            PreparedStatement updateRow = conn.prepareStatement(
+                    "UPDATE InventoryRecord SET QuantityInStock = ?, UnitBuyPrice = ? WHERE ProductSKU =?");
+            // insert costumers into table
+            updateRow.setInt(1, inventoryRecord.getQuantityInStock());
+            updateRow.setDouble(2, inventoryRecord.getUnitPrice());
+            updateRow.setString(3, inventoryRecord.getSku());
+            updateRow.execute();
+            updateRow.close();
+            return true;
+        } catch (SQLException e) {
+            System.err.println(e);
+            return false;
+        }
+    }
 }

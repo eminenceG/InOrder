@@ -72,4 +72,17 @@ public class InventoryRecordServiceTest {
         assertThrows(IllegalArgumentException.class, () -> new InventoryRecord(1, -1.11, "AB-000003-0N"));
 
     }
+
+    @Test
+    public void testUpdate() {
+        Product product = new Product("a", "b", "AB-000001-0N");
+        ProductService.insert(conn, product);
+        InventoryRecordService.insert(conn, inventoryRecords.get(0));
+        assertEquals(inventoryRecords.get(0), InventoryRecordService.getById(conn, inventoryRecords.get(0).getSku()));
+
+        InventoryRecord newInventoryRecord = new InventoryRecord(4, 2.22, "AB-000001-0N");
+        InventoryRecordService.update(conn, newInventoryRecord);
+        assertEquals(newInventoryRecord, InventoryRecordService.getById(conn, "AB-000001-0N"));
+
+    }
 }
