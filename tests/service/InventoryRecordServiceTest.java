@@ -6,8 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,10 +65,10 @@ public class InventoryRecordServiceTest {
         InventoryRecordService.insert(conn, inventoryRecords.get(0));
         assertEquals(null, InventoryRecordService.getById(conn, inventoryRecords.get(0).getSku()));
 
-        // The quantity is negative
+        // The quantity is non-positive
         assertThrows(IllegalArgumentException.class, () -> new InventoryRecord(-1, 1.11, "AB-000003-0N"));
 
-        // The unit price is negative
+        // The unit price is non-positive
         assertThrows(IllegalArgumentException.class, () -> new InventoryRecord(1, -1.11, "AB-000003-0N"));
 
     }
