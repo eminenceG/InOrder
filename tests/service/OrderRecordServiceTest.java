@@ -28,6 +28,7 @@ public class OrderRecordServiceTest {
 
         orderRecords = new ArrayList<>();
         orderRecords.add(new OrderRecord(1, 2, 1.11, "AB-000001-0N"));
+        orderRecords.add(new OrderRecord(1, 1, 2.11, "AB-000007-0N"));
     }
 
     /** Tests the insertion of an OrderRecord. */
@@ -63,5 +64,34 @@ public class OrderRecordServiceTest {
 
         boolean result = OrderRecordService.insert(conn, orderRecords.get(0));
         assertEquals(result, false);
+    }
+
+    /** Tests getting an OrderRecord via its id. */
+    @Test
+    public void testGetById() {
+        Product product = new Product("a", "b", "AB-000001-0N");
+        Customer customer = new Customer(1, "name1", "address1", "city1", "state1", "country1", "postalCode1");
+        Order order = new Order(1,1,new Date(1L),new Date(2L));
+        ProductService.insert(conn, product);
+        CustomerService.insert(conn, customer);
+        OrderService.insert(conn, order, Arrays.asList(orderRecords.get(0)));
+        assertEquals(orderRecords.get(0), OrderRecordService.getById(conn,
+                orderRecords.get(0).getOrderId(), orderRecords.get(0).getSku()));
+    }
+
+    /** Tests getting all OrderRecords. */
+    @Test
+    public void testGetAll() {
+        Product product = new Product("a", "b", "AB-000001-0N");
+        Product product2 = new Product("a", "b", "AB-000007-0N");
+        Customer customer = new Customer(1, "name1", "address1", "city1", "state1", "country1", "postalCode1");
+        Order order = new Order(1,1,new Date(1L),new Date(2L));
+        ProductService.insert(conn, product);
+        ProductService.insert(conn, product2);
+        CustomerService.insert(conn, customer);
+        OrderService.insert(conn, order, orderRecords);
+
+        List<OrderRecord> orderRecordsFromDb = OrderRecordService.getAll(conn);
+        assertEquals(orderRecordsFromDb.size(), orderRecords.size());
     }
 }

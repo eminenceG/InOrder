@@ -94,7 +94,7 @@ public class OrderRecordService {
                 String description = rs.getString(2);
                 String sku = rs.getString(3);
                 orderRecords.add(new OrderRecord(
-                        rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getString(4)));
+                        rs.getInt(2), rs.getInt(1), rs.getDouble(3), rs.getString(4)));
             }
             rs.close();
         } catch (SQLException e) {

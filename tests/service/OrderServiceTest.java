@@ -56,7 +56,7 @@ public class OrderServiceTest {
         assertEquals(result, false);
     }
 
-    /** Tests the order ship method.  */
+    /** Tests the order ship method. */
     @Test
     public void testShipOrder() {
         Product product = new Product("a", "b", "AB-000001-0N");
@@ -69,8 +69,9 @@ public class OrderServiceTest {
         assertEquals(OrderService.getById(conn, orders.get(0).getOrderId()).getShipDate().toString(), "1970-01-12");
     }
 
+    /** Tests getting all orders.  */
     @Test
-    public void testGetAllRecords() {
+    public void testGetAllOrders() {
         Product product = new Product("a", "b", "AB-000001-0N");
         Customer customer = new Customer(1, "name1", "address1", "city1", "state1",
                 "country1", "postalCode1");
@@ -86,6 +87,17 @@ public class OrderServiceTest {
         for (int i = 0; i < ordersFromDb.size(); i++) {
             assertEquals(ordersFromDb.get(i), orders.get(i));
         }
+    }
 
+    /** Tests getting order by its id. */
+    @Test
+    public void testGetById(){
+        Product product = new Product("a", "b", "AB-000001-0N");
+        Customer customer = new Customer(1, "name1", "address1", "city1", "state1", "country1", "postalCode1");
+        ProductService.insert(conn, product);
+        CustomerService.insert(conn, customer);
+        OrderService.insert(conn, orders.get(0), Arrays.asList(new OrderRecord(1, 1, 2.22, "AB-000001-0N")));
+
+        assertEquals(OrderService.getById(conn, orders.get(0).getOrderId()), orders.get(0));
     }
 }
