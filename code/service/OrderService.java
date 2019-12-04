@@ -9,6 +9,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class contains order related methods.
+ */
 public class OrderService {
     protected static boolean CreateTable(Statement stmt) {
         String createTableOrder =
@@ -31,6 +34,13 @@ public class OrderService {
         return true;
     }
 
+    /**
+     * Inserts a new record.
+     * @param conn the Connection object.
+     * @param order the order.
+     * @param orderRecordList list of order records.
+     * @return true if inserted successfully, otherwise false.
+     */
     public static boolean insert(Connection conn, Order order, List<OrderRecord> orderRecordList) {
         try {
             conn.setAutoCommit(false);

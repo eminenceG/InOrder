@@ -3,6 +3,9 @@ package service;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * This class contains triggers for the database.
+ */
 public class InOrderTriggers {
     private static final String createOrderRecordTrigger =
             "create trigger CreateOrderRecord"

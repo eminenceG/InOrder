@@ -6,6 +6,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class contains methods to operate the OrderRecord table.
+ */
 public class OrderRecordService {
     protected static boolean createTable(Statement stmt) {
         String createTableOrderRecord =
