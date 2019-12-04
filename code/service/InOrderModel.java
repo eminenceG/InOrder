@@ -1,8 +1,5 @@
 package service;
 
-import model.Customer;
-import model.Order;
-import model.OrderRecord;
 import model.Product;
 
 import java.sql.Connection;
@@ -14,14 +11,14 @@ import java.util.Properties;
 /**
  * The driver class of InOrder.
  */
-public class InOrder {
+public class InOrderModel {
     private Connection conn;
 
     /**
      * Constructs an InOrder instance.
      * @throws SQLException When SQL problems occur.
      */
-    InOrder() throws SQLException {
+    public InOrderModel() throws SQLException {
         // set up the connection to the database
         String protocol = "jdbc:derby:";
         String dbName = "InOrder";
@@ -86,7 +83,7 @@ public class InOrder {
     public static void main(String[] args) {
         Connection conn = null;
         try {
-            InOrder driver = new InOrder();
+            InOrderModel driver = new InOrderModel();
             conn = driver.init();
         } catch (SQLException e) {
             System.out.println("No Database Connection");

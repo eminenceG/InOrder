@@ -1,8 +1,12 @@
 package service;
 
 import model.Customer;
+import model.Product;
+import view.ConsoleBasedView;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class provides services to operate the Customer table.
@@ -132,5 +136,27 @@ public class CustomerService {
         }
     }
 
+    /**
+     * Gets all customers.
+     * @param conn the Connection object.
+     * @return all customers.
+     */
+    public static List<Customer> getAll(Connection conn) {
+        List<Customer> customers = new ArrayList<>();
+        try (
+                Statement stmt = conn.createStatement();
+        ) {
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Customer ORDER BY CustomerId");
+            while (rs.next()) {
+                Customer customer = new Customer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getString(6), rs.getString(7));
+                customers.add(customer);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customers;
+    }
 
 }

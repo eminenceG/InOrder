@@ -61,5 +61,9 @@ public class InventoryRecord {
         return other.getSku().equals(sku) && other.getQuantityInStock() == quantityInStock && other.getUnitPrice() == unitPrice;
     }
 
+    @Override
+    public String toString() {
+        return String.format("sku: %s, quantity: %d, unit price: %.2f", sku, quantityInStock, unitPrice);
+    }
 }
 

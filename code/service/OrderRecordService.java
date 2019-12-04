@@ -106,4 +106,31 @@ public class OrderRecordService {
         return orderRecords;
     }
 
+
+    /**
+     * Gets an order record by the order ID and the product SKU.
+     * @param conn the Connection object.
+     * @param orderId the order ID
+     * @return the order record, null if not found.
+     */
+    public static List<OrderRecord> getByOrderId(Connection conn, int orderId) {
+        List<OrderRecord> orderRecords = new ArrayList<>();
+        try {
+            PreparedStatement sql = conn.prepareStatement(
+                    "select * from OrderRecord where OrderId = ?");
+            sql.setInt(1, orderId);
+            ResultSet rs = sql.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString(1);
+                String description = rs.getString(2);
+                String sku = rs.getString(3);
+                orderRecords.add(new OrderRecord(
+                        rs.getInt(2), rs.getInt(1), rs.getDouble(3), rs.getString(4)));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+        return orderRecords;
+    }
 }

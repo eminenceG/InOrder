@@ -41,6 +41,7 @@ public class Customer {
         this.postalCode = postalCode;
     }
 
+
     public int getCustomerId() {
         return customerId;
     }
@@ -83,5 +84,11 @@ public class Customer {
                 other.getName().equals(this.getName()) &&
                 other.getPostalCode().equals(this.getPostalCode()) &&
                 other.getState().equals(this.getState());
+    }
+
+    @Override
+    public String toString() {
+        return String.format("CustomerId: %d, name: %s, address: %s, city: %s, state: %s, country: %s", customerId,
+                name, address, city, state, country);
     }
 }

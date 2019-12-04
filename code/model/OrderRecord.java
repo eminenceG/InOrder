@@ -56,4 +56,9 @@ public class OrderRecord {
         return other.getSku().equals(sku) && other.getOrderId() == orderId && other.getNumUnits() == numUnits&&
                 other.getUnitPrice() == unitPrice;
     }
+
+    @Override
+    public String toString() {
+        return String.format("SKU: %s, num units: %d, unit price: %.2f", sku, numUnits, unitPrice);
+    }
 }

@@ -3,9 +3,7 @@ package service;
 import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.common.record.Record;
 
-import java.security.PublicKey;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,14 +13,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class OrderServiceTest {
     private Connection conn = null;
-    private InOrder inOrder = null;
+    private InOrderModel inOrderModel = null;
     private List<Order> orders = null;
 
     @BeforeEach
     void setUp() {
         try {
-            inOrder = new InOrder();
-            conn = inOrder.init();
+            inOrderModel = new InOrderModel();
+            conn = inOrderModel.init();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }

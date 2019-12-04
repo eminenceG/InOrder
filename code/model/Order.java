@@ -72,4 +72,13 @@ public class Order {
                 other.orderDate.toString().equals(orderDate.toString()) &&
                 ((other.shipDate == null && shipDate == null) || (other.shipDate.toString().equals(shipDate.toString())));
     }
+
+    @Override
+    public String toString() {
+        if (shipDate == null) {
+            return String.format("CustomerId: %d, OrderId: %d, Order date: %s, Not shipped", customerId, orderId, orderDate.toString());
+        } else {
+            return String.format("CustomerId: %d, OrderId: %d, Order date: %s, Ship Date: %s.", customerId, orderId, orderDate.toString(), shipDate.toString());
+        }
+    }
 }

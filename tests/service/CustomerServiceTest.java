@@ -14,14 +14,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class CustomerServiceTest {
 
     private Connection conn = null;
-    private InOrder inOrder = null;
+    private InOrderModel inOrderModel = null;
     private List<Customer> customers = null;
 
     @BeforeEach
     void setUp() {
         try {
-            inOrder = new InOrder();
-            conn = inOrder.init();
+            inOrderModel = new InOrderModel();
+            conn = inOrderModel.init();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
