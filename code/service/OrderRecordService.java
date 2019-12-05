@@ -33,7 +33,7 @@ public class OrderRecordService {
         return true;
     }
 
-    protected static boolean insert(Connection conn, OrderRecord orderRecord) {
+    public static boolean insert(Connection conn, OrderRecord orderRecord) {
         try {
             // insert order record
             PreparedStatement insertRowOrderRecord =
